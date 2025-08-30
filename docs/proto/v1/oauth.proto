@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package grpc.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "docs/proto/v1";
+
+service OAuth {
+  rpc GetUser (GetUserRequest) returns (GetUserResponse);
+}
+
+message GetUserRequest {
+    string token = 1;
+}
+
+message GetUserResponse {
+    User user = 1;
+}
+
+message User {
+    uint64 id = 1;                           // Go: uint
+    string provider_id = 2;                  // Go: string
+    string provider = 3;                     // Go: string
+    string name = 4;                         // Go: string
+    string email = 5;                        // Go: string
+    string picture = 6;                      // Go: string
+    google.protobuf.Timestamp created_at = 7; // Go: time.Time
+    google.protobuf.Timestamp updated_at = 8; // Go: time.Time
+    google.protobuf.Timestamp deleted_at = 9; // Go: gorm.DeletedAt
+    // bool is_deleted = 9;
+}
+
+/*
+protoc \
+    -I="$HOME/p/oauth2/v2/docs/proto/v1" \
+    --go_out=. --go_opt=module=docs/proto/v1 \
+    --go-grpc_out=. --go-grpc_opt=module=docs/proto/v1 \
+    "$HOME/p/oauth2/v2/docs/proto/v1/oauth.proto"
+*/

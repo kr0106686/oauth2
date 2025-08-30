@@ -1,0 +1,7 @@
+pkg
+.env
+.env.prod
+*test.go
+tests
+build
+.v1
